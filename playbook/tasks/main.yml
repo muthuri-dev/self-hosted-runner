@@ -1,0 +1,36 @@
+---
+- name: Create a folder
+  shell: mkdir actions-runner && cd actions-runner
+  args:
+    chdir: /home/ubuntu
+    creates: /home/ubuntu/actions-runner
+
+- name: Download the latest runner package
+  shell: curl -o actions-runner-linux-x64-2.328.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz
+  args:
+    chdir: /home/ubuntu/actions-runner
+    creates: /home/ubuntu/actions-runner/actions-runner-linux-x64-2.328.0.tar.gz
+
+- name: Validate the hash
+  shell: echo "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e *actions-runner-linux-x64-2.328.0.tar.gz" | sha256sum -c
+  args:
+    chdir: /home/ubuntu/actions-runner
+
+- name: Extract the installer
+  shell: tar xzf ./actions-runner-linux-x64-2.328.0.tar.gz
+  args:
+    chdir: /home/ubuntu/actions-runner
+    creates: /home/ubuntu/actions-runner/config.sh
+
+- name: Configure the runner
+  shell: ./config.sh --url {{ github_repo_url }} --token {{ github_token }} --unattended
+  args:
+    chdir: /home/ubuntu/actions-runner
+    creates: /home/ubuntu/actions-runner/.runner
+
+- name: Run the runner
+  shell: ./run.sh
+  args:
+    chdir: /home/ubuntu/actions-runner
+  async: 0
+  poll: 0
