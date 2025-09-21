@@ -1,0 +1,45 @@
+# Go binaries
+*.exe
+*.out
+*.prof
+
+# Dependency directories
+vendor/
+node_modules/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# Test files
+*_test.go
+
+# Build artifacts
+bin/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Local config files
+.env
+.env.local
+.env.*.local
+
+# Documentation
+README.md
+LICENSE

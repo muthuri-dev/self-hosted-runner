@@ -1,0 +1,170 @@
+basePath: /api/v1
+definitions:
+  models.CreateUserRequest:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  models.UpdateUserRequest:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  models.User:
+    properties:
+      age:
+        type: integer
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: A simple Go API with PostgreSQL and GORM
+  title: Go API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Get the health status of the application
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health check
+      tags:
+      - health
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create a new user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get a user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update a user
+      tags:
+      - users
+swagger: "2.0"
