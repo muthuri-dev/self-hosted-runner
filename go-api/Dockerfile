@@ -15,7 +15,7 @@ COPY . .
 # Build the application with version information
 RUN CGO_ENABLED=0 GOOS=linux go build \
     -ldflags="-w -s -X main.version=${VERSION}" \
-    -o main cmd/server/main.go
+    -o main .
 
 # Start a new stage from scratch
 FROM alpine:3.18
