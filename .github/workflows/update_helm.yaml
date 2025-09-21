@@ -107,8 +107,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add ${{ env.HELM_CHART_DIR }}/values.yaml ${{ env.HELM_CHART_DIR }}/Chart.yaml
           git commit -m "ci: update helm chart with image tag ${{ steps.get-tag.outputs.TAG }}"
-          git push
+          git push origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
